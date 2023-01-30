@@ -1,8 +1,9 @@
 version: '3.0'
+
 services:
   backend:
     build:
-      context: ./backend/
+      context: ./server/
       dockerfile: Dockerfile
     ports:
       - '8000:8000'
@@ -11,4 +12,4 @@ services:
 
 networks:
   urlnet:
-   
+  
