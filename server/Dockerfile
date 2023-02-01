@@ -2,6 +2,8 @@ FROM node:16
 
 COPY . .
 
+RUN ["npm", "install", "typescript"]
+
 RUN ["npm", "install"]
 
 RUN ["tsc"]
