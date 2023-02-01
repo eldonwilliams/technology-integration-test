@@ -2,12 +2,14 @@ FROM node:16
 
 COPY . .
 
-RUN ["npm", "install", "typescript"]
+# I have such a love hate relationship with Docker
+# Thanks to @Grasume#1295 on Discord btw for showing me this syntax
+RUN npm install -g typescript
 
-RUN ["npm", "install"]
+RUN npm install
 
-RUN ["tsc"]
+RUN tsc
 
 EXPOSE 8000
 
-CMD ["node", "./dist/index.js"]
+CMD node ./dist/index.js
