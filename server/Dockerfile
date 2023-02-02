@@ -4,8 +4,7 @@ COPY . .
 
 # I have such a love hate relationship with Docker
 # Thanks to @Grasume#1295 on Discord btw for showing me this syntax
-RUN npm install -g typescript
-
+RUN npm install -g
 RUN npm install
 
 RUN tsc
