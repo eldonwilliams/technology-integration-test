@@ -7,8 +7,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8000:8000'
+      - '7979:7979'
     networks:
       - urlnet
+    volumes:
+      - ./server:/app/
+    environment:
+      REST_PORT: $REST_PORT
+      SOCKET_PORT: $SOCKET_PORT
 
 networks:
   urlnet:
