@@ -31,6 +31,6 @@ export function getEnvNumber(key: string, def?: number, float: boolean = false )
     let v = getEnvString(key, def?.toString());
     if (v == undefined) return undefined;
     let n = (float ? parseFloat : parseInt)(v);
-    if (Number.isNaN(n)) return undefined;
+    if (Number.isNaN(n)) return def ?? undefined;
     return n;
 }
