@@ -8,7 +8,7 @@
  * @param def The default value
  * @returns 
  */
-function getEnvString(key: string, def?: string): string | undefined {
+export function getEnvString(key: string, def?: string): string | undefined {
     let v = process.env[key] ?? def ?? undefined;
     if (v == '') v = def ?? undefined;
     return v;
@@ -27,7 +27,7 @@ function getEnvString(key: string, def?: string): string | undefined {
  * @param float Should use parseFloat or parseInt : default false
  * @returns 
  */
-function getEnvNumber(key: string, def?: number, float: boolean = false ): number | undefined {
+export function getEnvNumber(key: string, def?: number, float: boolean = false ): number | undefined {
     let v = getEnvString(key, def?.toString());
     if (v == undefined) return undefined;
     let n = (float ? parseFloat : parseInt)(v);
