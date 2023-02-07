@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
+    "@jest/globals": "^29.4.1",
     "@types/express": "^4.17.16",
     "jest": "^29.4.1",
     "ts-jest": "^29.0.5",
