@@ -18,8 +18,6 @@ export function getEnvString(key: string, def?: string): string | undefined {
  * Looks for a environment variable and returns as a number
  * If not found or is NaN it will return def or undefined, respectively.
  * 
- * **NaN values will ALWAYS return undefined**
- * 
  * @see getEnvString For the string version
  * 
  * @param key The key to search for
