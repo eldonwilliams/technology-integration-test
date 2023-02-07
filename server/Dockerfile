@@ -11,6 +11,8 @@ RUN npm install
 
 RUN tsc
 
+RUN npm test
+
 EXPOSE 8000
 
 CMD node ./dist/index.js
