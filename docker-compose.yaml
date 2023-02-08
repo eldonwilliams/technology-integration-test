@@ -12,9 +12,14 @@ services:
       - urlnet
     volumes:
       - ./server:/app/
+      - type: bind
+        source: ./server/jest-reports
+        target: /usr/src/app/jest-reports
+
     environment:
       REST_PORT: $REST_PORT
       SOCKET_PORT: $SOCKET_PORT
+      GEN_TEST_REPORTS: $GEN_TEST_REPORTS
 
 networks:
   urlnet:

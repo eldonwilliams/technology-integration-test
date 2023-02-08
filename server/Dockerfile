@@ -18,7 +18,7 @@ COPY . /usr/src/app/
 
 RUN tsc
 
-RUN npm test
+RUN npm test -- --no-color 2>jest.report.txt
 
 EXPOSE 8000
 
