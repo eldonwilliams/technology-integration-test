@@ -3,8 +3,8 @@ console.timeLog("startup", "Server is now starting...");
 
 import express from "express";
 import { getEnvNumber, getEnvString } from "./util/getEnv";
-import {copyFile, rm as deleteFile} from "fs";
-import {join} from "path";
+import { copyFile, rm as deleteFile } from "fs";
+import { join } from "path";
 
 const app = express();
 const REST_PORT = getEnvNumber("REST_PORT", 8000);
