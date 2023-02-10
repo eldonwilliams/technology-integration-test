@@ -20,6 +20,13 @@ services:
       REST_PORT: $REST_PORT
       SOCKET_PORT: $SOCKET_PORT
       GEN_TEST_REPORTS: $GEN_TEST_REPORTS
+      JWT_KEY: $JWT_KEY
+  redis:
+    image: redis:7
+    ports:
+      - '6379:6379'
+    networks:
+      - urlnet
 
 networks:
   urlnet:
