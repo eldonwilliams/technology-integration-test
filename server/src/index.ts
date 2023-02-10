@@ -6,11 +6,18 @@ import { getEnvNumber, getEnvString } from "./util/getEnv";
 import { copyFile, rm as deleteFile } from "fs";
 import { join } from "path";
 import glob from "glob";
-import { RouteSubscriber, RouteSubscriberEvent } from "./route";
+import cookieParser from "cookie-parser";
+import authMiddleware from "./util/authMiddleware";
 
 const app = express();
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(authMiddleware);
+
 const REST_PORT = getEnvNumber("REST_PORT", 8000) as number;
 const SOCKET_PORT = getEnvNumber("SOCKET_PORT", 7979) as number;
+
 console.timeLog("startup", `Socketio unimplemented yet, port would be: ${SOCKET_PORT}`)
 
 let shouldGen = getEnvString("GEN_TEST_REPORTS", "true")?.toLowerCase() === "true";
