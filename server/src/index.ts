@@ -8,6 +8,7 @@ import { join } from "path";
 import glob from "glob";
 import cookieParser from "cookie-parser";
 import authMiddleware from "./util/authMiddleware";
+import { createClient as createRedisClient } from "redis";
 
 const app = express();
 
@@ -17,6 +18,10 @@ app.use(authMiddleware);
 
 const REST_PORT = getEnvNumber("REST_PORT", 8000) as number;
 const SOCKET_PORT = getEnvNumber("SOCKET_PORT", 7979) as number;
+const REDIS_URL = getEnvString("REDIS_URL", "redis://redis:6379") as string;
+
+const redisClient = createRedisClient({ url: REDIS_URL, });
+redisClient.connect().catch((reason) => console.error(reason))
 
 console.timeLog("startup", `Socketio unimplemented yet, port would be: ${SOCKET_PORT}`)
 
@@ -33,8 +38,10 @@ if (shouldGen) {
 
 const EventObject: RouteSubscriberEvent = {
     express: app,
+    redis: redisClient,
     REST_PORT: REST_PORT,
     SOCKET_PORT: SOCKET_PORT,
+    REDIS_URL: REDIS_URL,
 }
 const routesMatcher = "**/dist/routes/*.+(js|ts)";
 glob(routesMatcher, (err, matches) => {

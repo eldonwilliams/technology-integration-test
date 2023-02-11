@@ -1,4 +1,5 @@
 import { Application } from "express";
+import { createClient } from "redis";
 
 declare global {
     /**
@@ -17,6 +18,14 @@ declare global {
          * The port socket.io is connected to and should be in process.env
          */
         SOCKET_PORT: number,
+        /**
+         * The redis client object
+         */
+        redis: ReturnType<typeof createClient>,
+        /**
+         * The REDIS_URL environment variable
+         */
+        REDIS_URL: string,
     }
 
     /**
