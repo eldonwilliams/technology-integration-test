@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 function Signup() {
@@ -9,7 +10,10 @@ function Signup() {
                 <input type="password" placeholder="Password" />
                 <input type="password" placeholder="Confirm Password" />
             </form>
-            <button>Sign-up</button>
+            <div className="links">
+                <button>Sign-up</button>
+                <Link to="/">Back</Link>
+            </div>
         </>
     )
 }
