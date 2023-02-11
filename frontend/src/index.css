@@ -14,6 +14,12 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.links {
+  display: flex;
+  place-content: center;
+  gap: 5px;
+}
+
 body {
   margin: 0;
   display: flex;
@@ -27,7 +33,12 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+a {
+  color: white;
+  text-decoration: none;
+}
+
+button, a {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -43,12 +54,14 @@ input {
   font-size: 20px;
 }
 
-button:hover {
+button:hover, a:hover {
   border-color: #646cff;
 }
 
 button:focus,
-button:focus-visible {
+button:focus-visible,
+a:focus,
+a:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
