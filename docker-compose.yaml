@@ -15,12 +15,14 @@ services:
       - type: bind
         source: ./server/jest-reports
         target: /usr/src/app/jest-reports
-
+    depends_on:
+      - redis
     environment:
       REST_PORT: $REST_PORT
       SOCKET_PORT: $SOCKET_PORT
       GEN_TEST_REPORTS: $GEN_TEST_REPORTS
       JWT_KEY: $JWT_KEY
+      REDIS_URL: $REDIS_URL
   redis:
     image: redis:7
     ports:
