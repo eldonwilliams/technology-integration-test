@@ -9,10 +9,12 @@ import glob from "glob";
 import cookieParser from "cookie-parser";
 import authMiddleware from "./util/authMiddleware";
 import { createClient as createRedisClient } from "redis";
+import cors from "cors";
 
 const app = express();
 
-app.use(express.json());
+app.use(cors);
+app.use(express.json);
 app.use(cookieParser());
 app.use(authMiddleware);
 
