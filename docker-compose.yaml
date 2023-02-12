@@ -24,7 +24,7 @@ services:
       JWT_KEY: $JWT_KEY
       REDIS_URL: $REDIS_URL
   redis:
-    image: redis:7
+    image: redis/redis-stack:latest
     ports:
       - '6379:6379'
     networks:
