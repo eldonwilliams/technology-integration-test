@@ -28,6 +28,11 @@ declare global {
         REDIS_URL: string,
     }
 
+    export interface RedisUserData {
+        username: string,
+        password: string,
+    }
+
     /**
      * A RouteSubscriber is a function which is in src/routes and is called once upon start.
      * All modules in src/routes must look like either of these
