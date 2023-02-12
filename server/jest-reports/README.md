@@ -1,0 +1,1 @@
+This is where you can find jest reports from docker builds.
