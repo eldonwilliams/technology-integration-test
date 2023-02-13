@@ -1,0 +1,23 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form * {
+  margin: 10px;
+}
+
+form input[type=text], form input[type=password] {
+  padding: 5px;
+}
+
+input:last-child {
+  margin-bottom: 20px;
+}
