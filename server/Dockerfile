@@ -10,6 +10,7 @@ COPY package-lock.json* package-lock.json
 # Thanks to @Grasume#1295 on Discord btw for showing me this syntax
 RUN npm install -g typescript
 RUN npm install -g jest
+RUN npm install -g redoc-cli
 RUN npm install -g
 RUN npm install
 
@@ -17,6 +18,9 @@ RUN npm install
 COPY . /usr/src/app/
 
 RUN tsc
+
+RUN node ./oa-build.js
+RUN redoc-cli serve ./oa-spec.json -p=8001
 
 RUN npm test -- --no-color 2>jest.report.txt
 
