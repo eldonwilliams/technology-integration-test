@@ -3,19 +3,20 @@ console.timeLog("startup", "Server is now starting...");
 
 import express from "express";
 import { getEnvNumber, getEnvString } from "./util/getEnv";
-import { copyFile, rm as deleteFile } from "fs";
+import { copyFile, rm as deleteFile, writeFile } from "fs";
 import { join } from "path";
 import glob from "glob";
 import cookieParser from "cookie-parser";
 import authMiddleware from "./util/authMiddleware";
 import { createClient as createRedisClient } from "redis";
 import cors from "cors";
+import swaggerjsdoc from "swagger-jsdoc";
 
 const app = express();
 
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:5173"]
+    origin: getEnvString("CORS_ORIGINS", "localhost")?.split(" "),
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -66,6 +67,25 @@ glob(routesMatcher, (err, matches) => {
 
     console.log(`\nDone.\n`);
 })
+
+const swaggerSpec = JSON.stringify(swaggerjsdoc({
+    apis: ["/dist/routes/*.js"],
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Farm IDLE – Backend API',
+            version: '1.0.0',
+            contact: {
+                name: "Eldon W.",
+                url: "https://github.com/eldonwilliams/",
+            },
+        },
+    },
+}));
+
+app.get('/oa-spec.json', (req, res) => {
+    res.send(swaggerSpec);
+});
 
 console.timeLog("startup", `Rest server is trying to listen on port: ${REST_PORT}`);
 app.listen(REST_PORT, () => {
