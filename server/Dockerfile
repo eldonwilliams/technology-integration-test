@@ -19,8 +19,7 @@ COPY . /usr/src/app/
 
 RUN tsc
 
-RUN node ./oa-build.js
-RUN redoc-cli build ./oa-spec.json
+RUN redoc-cli build
 
 RUN npm test -- --no-color 2>jest.report.txt
 
