@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8000:8000'
-      - '8001:8001'
       - '7979:7979'
     networks:
       - urlnet
@@ -24,6 +23,19 @@ services:
       GEN_TEST_REPORTS: $GEN_TEST_REPORTS
       JWT_KEY: $JWT_KEY
       REDIS_URL: $REDIS_URL
+      CORS_ORIGINS: $CORS_ORIGINS
+  redoc:
+    image: redocly/redoc
+    environment:
+      SPEC_URL: $OPEN_API_SPEC
+      PORT: 8081
+      PAGE_TITLE: Farm IDLE – API Docs
+    networks:
+      - urlnet
+    ports:
+      - '8081:8081'
+    depends_on:
+      - backend
   redis:
     image: redis/redis-stack:latest
     ports:
