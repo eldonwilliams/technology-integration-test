@@ -27,7 +27,7 @@ export function expressAuthentication(request: express.Request, securityName: st
 }
 
 export interface LoggedInErrResponse {
-    err: "Loggedin",
+    err: "LoggedIn",
 }
 
 /**
@@ -35,6 +35,18 @@ export interface LoggedInErrResponse {
  */
 export const loggedOutMiddleware: Handler = (req, res, next) => {
     if (req.authed) return res.status(400).send({ err: "LoggedIn", });
+    next();
+}
+
+export interface LoggedOutErrResponse {
+    err: "LoggedOut"
+}
+
+/**
+ * A middleware that makes sure the client IS logged in.
+ */
+export const loggedInMiddleware: Handler = (req, res, next) => {
+    if (!req.authed) return res.status(400).send({ err: "LoggedOut", });
     next();
 }
 
