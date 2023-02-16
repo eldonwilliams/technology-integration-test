@@ -20,7 +20,7 @@ app.use((err: unknown, req: express.Request, res: express.Response, next: expres
     if (err instanceof ValidateError) {
         return res.status(422).send({
             message: "Validation Failed",
-            details: err?.fields ?? [],
+            details: err.fields,
         });
     }
 
@@ -31,6 +31,12 @@ app.use((err: unknown, req: express.Request, res: express.Response, next: expres
     }
 
     next();
+})
+
+app.use((_req, res: express.Response) => {
+    res.status(404).send({
+        message: "Not Found",
+    })
 })
 
 export default app;
