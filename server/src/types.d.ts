@@ -46,7 +46,8 @@ declare global {
      * Extended express request object
      */
     namespace Express {
-        export interface Request extends Request {
+        // ty
+        export interface Request extends Express.Request {
             /**
              * Is this client authenticated
              */
