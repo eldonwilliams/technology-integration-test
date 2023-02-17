@@ -34,7 +34,7 @@ export interface LoggedInErrResponse {
  * A middleware that makes sure the client is NOT logged in.
  */
 export const loggedOutMiddleware: Handler = (req, res, next) => {
-    if (req.authed) return res.status(400).send({ err: "LoggedIn", });
+    if (req.authed) return res.status(403).send({ err: "LoggedIn", });
     next();
 }
 
@@ -46,7 +46,7 @@ export interface LoggedOutErrResponse {
  * A middleware that makes sure the client IS logged in.
  */
 export const loggedInMiddleware: Handler = (req, res, next) => {
-    if (!req.authed) return res.status(400).send({ err: "LoggedOut", });
+    if (!req.authed) return res.status(401).send({ err: "LoggedOut", });
     next();
 }
 
