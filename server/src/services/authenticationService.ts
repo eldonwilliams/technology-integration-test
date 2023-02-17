@@ -5,3 +5,8 @@ export interface SessionInfo {
 }
 
 export type SessionInfoResponse = SessionInfo | RedisError;
+
+export interface LoginReqBody {
+    username: string,
+    password: string
+}
