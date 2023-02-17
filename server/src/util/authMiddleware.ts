@@ -11,13 +11,18 @@ if (JWT_KEY === randBytes) console.warn("JWT_KEY is unset! All and data encrypte
 export function expressAuthentication(request: express.Request, securityName: string, scopes: string[]): Promise<any> {
     if (securityName !== "sessionToken") return Promise.reject({});
     const sessionToken = request.cookies.sessionToken;
-    if (sessionToken === undefined) return Promise.resolve({
-        authed: false,
-        auth: undefined,
-    });
+    if (sessionToken === undefined) {
+        request.authed = false;
+        return Promise.resolve({
+            authed: false,
+            auth: undefined,
+        });
+    }
     return new Promise((resolve, reject) => {
         verify(sessionToken, JWT_KEY, {}, (err, decoded) => {
             if (err !== null || decoded === undefined || typeof decoded === "string") return reject({});
+            request.authed = true;
+            request.auth = decoded.user;
             resolve({
                 authed: true,
                 auth: decoded.user,
@@ -35,7 +40,7 @@ export interface LoggedInErrResponse {
  * Throws LoggedInErrResponse and sends 403 status.
  */
 export const loggedOutMiddleware: Handler = (req, res, next) => {
-    if (req.authed) return res.status(403).send({ err: "LoggedIn", });
+    if (req.authed === true) return res.status(403).send({ err: "LoggedIn", });
     next();
 }
 
@@ -48,7 +53,7 @@ export interface LoggedOutErrResponse {
  * Throws LoggedOutErrResponse and sends 401 status.
  */
 export const loggedInMiddleware: Handler = (req, res, next) => {
-    if (!req.authed) return res.status(401).send({ err: "LoggedOut", });
+    if (req.authed === false) return res.status(401).send({ err: "LoggedOut", });
     next();
 }
 
