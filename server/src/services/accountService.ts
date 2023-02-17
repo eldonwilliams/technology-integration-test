@@ -51,25 +51,30 @@ export const getAccountFromToken = (token: string): Promise<Account | undefined>
 });
 
 export const setAccountByName = (username: string, newAccData: Account): Promise<boolean> => new Promise((resolve, _reject) => {
-    redisClient.json.set(username, "$", JSON.stringify(newAccData))
+    redisClient.json.set(username, ".", newAccData as any)
         .then((ok) => resolve(ok === "OK"))
         .catch(() => resolve(false));
 });
 
 export const updateAccountByName = (username: string, path: keyof Account & string, newData: string): Promise<boolean> => new Promise((resolve, _reject) => {
-    redisClient.json.set(username, path, JSON.stringify(newData))
+    redisClient.json.set(username, path, newData)
         .then((ok) => resolve(ok === "OK"))
         .catch(() => resolve(false));
 });
 
 export const genJWTForAccount = (account: Account): string => jwt.sign({ user: account.username, }, JWT_KEY);
 
+type ValidationDetails = { validation: string, message: string, argument?: number, }[];
+
 /**
  * AccDetailInvalidErr and give status code 400
  */
 export interface AccDetailInvalidErr {
     err: "Validation Err",
-    details: { validation: string, message: string, argument?: number, }[],
+    details: {
+        password: ValidationDetails,
+        username: ValidationDetails,
+    },
 }
 
 /**
