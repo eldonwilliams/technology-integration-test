@@ -1,9 +1,8 @@
-import * as express from "express";
-import { sign } from "jsonwebtoken";
-import { JWT_KEY, loggedOutMiddleware } from "../util/authMiddleware";
-import * as bcrypt from "bcrypt";
-import { Body, Controller, Middlewares, Post, Request, Response, Route, Security, Tags } from "tsoa";
-import { SignupBody, SignupResponse } from "../services/accountService";
+import { LoggedInErrResponse, loggedOutMiddleware } from "../util/authMiddleware";
+import { Body, Controller, Middlewares, Post, Response, Route, Security, SuccessResponse, Tags } from "tsoa";
+import { AccDetailInvalidErr, accountPasswordSchema, accountUsernameSchema, getAccountByUsername, setAccountByName, SignupAlreadyExistsErr, SignupBody, SignupResponse } from "../services/accountService";
+import bcrypt from "bcrypt";
+import { redisClient, RedisError } from "../redisClient";
 
 // /**
 //  * Some middleware that will send an error code and stop the request if an account is logged in
@@ -81,8 +80,35 @@ export class AccountController extends Controller {
     @Post("/signup")
     @Tags("Account")
     @Security("sessionToken")
+    @Response<LoggedInErrResponse>(403)
+    @Response<SignupAlreadyExistsErr>(409)
+    @Response<AccDetailInvalidErr>(400)
+    @Response<RedisError>(500)
+    @SuccessResponse(201, "Account Created")
     @Middlewares(loggedOutMiddleware)
-    public async createAccount(@Body() request: SignupBody, @Request() expReq: express.Request): Promise<SignupResponse> {
-        return { err: "Loggedin", };
+    public async createAccount(@Body() request: SignupBody): Promise<SignupResponse> {
+        const { username, password } = request;
+        const passwordValidation = accountPasswordSchema.validate(password, { details: true, });
+        const usernameValidation = accountUsernameSchema.validate(username, { details: true, });
+        if (!passwordValidation || !usernameValidation) {
+            this.setStatus(400);
+            return ({
+                err: "Validation Err",
+                details: [...passwordValidation as any[], ...usernameValidation as any[]]
+            })
+        }
+        if (await getAccountByUsername(username) !== undefined) {
+            this.setStatus(409)
+            return ({ err: "Already Exists", });
+        }
+        const encryptedPassword = await bcrypt.hash(password, 4);
+        const success = await setAccountByName(username, ({ username, password: encryptedPassword, }));
+        if (success) {
+            this.setStatus(201);
+            return ({ success: true, })
+        } else {
+            this.setStatus(500);
+            return RedisError;
+        }
     }
 }
