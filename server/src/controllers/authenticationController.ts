@@ -1,8 +1,10 @@
-import { Controller, Get, Middlewares, Post, Request, Response, Route, Security, Tags } from "tsoa";
+import { Body, Controller, Get, Middlewares, Post, Request, Response, Route, Security, Tags } from "tsoa";
 import { LoggedInErrResponse, loggedInMiddleware, LoggedOutErrResponse, loggedOutMiddleware } from "../util/authMiddleware";
 import express from "express";
-import cookieParser from "cookie-parser";
-import { SessionInfo, SessionInfoResponse } from "../services/authenticationService";
+import { LoginReqBody, SessionInfoResponse } from "../services/authenticationService";
+import { genJWTForAccount, getAccountByUsername, getAccountFromToken } from "../services/accountService";
+import { RedisError } from "../redisClient";
+import bcrypt from "bcrypt";
 
 @Route("/authentication")
 export class AuthenticationController extends Controller {
@@ -13,9 +15,21 @@ export class AuthenticationController extends Controller {
     @Security("sessionToken")
     @Post("/login")
     @Response<LoggedInErrResponse>(403)
+    @Response(404, "Account Doesn't Exist")
+    @Response(401, "The Password Is Wrong")
     @Middlewares(loggedOutMiddleware)
-    public async login() {
-
+    public async login(@Body() body: LoginReqBody, @Request() request: express.Request) {
+        const { username, password } = body;
+        const account = await getAccountByUsername(username);
+        if (account === undefined) {
+            this.setStatus(404);
+            return;
+        }
+        if (!(await bcrypt.compare(password, account.password))) {
+            this.setStatus(401);
+            return;
+        }
+        request.res?.cookie('sessionToken', genJWTForAccount(account));
     }
 
     /**
@@ -24,8 +38,8 @@ export class AuthenticationController extends Controller {
     @Tags("Authentication", "Account")
     @Security("sessionToken")
     @Get("/logout")
-    @Response<LoggedInErrResponse>(403)
-    @Middlewares(loggedOutMiddleware)
+    @Response<LoggedOutErrResponse>(401)
+    @Middlewares(loggedInMiddleware)
     public async logout(@Request() request: express.Request) {
         request.res?.clearCookie("sessionToken");
         return ({ success: true, });
@@ -38,8 +52,16 @@ export class AuthenticationController extends Controller {
     @Security("sessionToken")
     @Get("/session")
     @Response<LoggedOutErrResponse>(401)
+    @Response<RedisError>(500)
     @Middlewares(loggedInMiddleware)
     public async getSessionInfo(@Request() request: express.Request): Promise<SessionInfoResponse> {
-        
+        const account = await getAccountFromToken(request.cookies.sessionToken);
+        if (account === undefined) {
+            this.setStatus(500);
+            return RedisError;
+        }
+        return ({
+            user: account.username,
+        });
     }
 }
