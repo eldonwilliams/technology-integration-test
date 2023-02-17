@@ -1,5 +1,8 @@
-import { Controller, Get, Middlewares, Post, Response, Route, Security, Tags } from "tsoa";
+import { Controller, Get, Middlewares, Post, Request, Response, Route, Security, Tags } from "tsoa";
 import { LoggedInErrResponse, loggedInMiddleware, LoggedOutErrResponse, loggedOutMiddleware } from "../util/authMiddleware";
+import express from "express";
+import cookieParser from "cookie-parser";
+import { SessionInfo, SessionInfoResponse } from "../services/authenticationService";
 
 @Route("/authentication")
 export class AuthenticationController extends Controller {
@@ -12,7 +15,7 @@ export class AuthenticationController extends Controller {
     @Response<LoggedInErrResponse>(403)
     @Middlewares(loggedOutMiddleware)
     public async login() {
-        
+
     }
 
     /**
@@ -23,8 +26,9 @@ export class AuthenticationController extends Controller {
     @Get("/logout")
     @Response<LoggedInErrResponse>(403)
     @Middlewares(loggedOutMiddleware)
-    public async logout() {
-
+    public async logout(@Request() request: express.Request) {
+        request.res?.clearCookie("sessionToken");
+        return ({ success: true, });
     }
 
     /**
@@ -35,7 +39,7 @@ export class AuthenticationController extends Controller {
     @Get("/session")
     @Response<LoggedOutErrResponse>(401)
     @Middlewares(loggedInMiddleware)
-    public async getSessionInfo() {
-
+    public async getSessionInfo(@Request() request: express.Request): Promise<SessionInfoResponse> {
+        
     }
 }

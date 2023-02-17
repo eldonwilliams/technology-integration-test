@@ -11,9 +11,9 @@ export class StatusController extends Controller {
     @Get()
     @Tags("Status")
     public async get(@Request() request: express.Request): Promise<GetStatusResponse> {
-        return {
+        return ({
             okay: true,
             authenticated: !!request.authed,
-        }
+        });
     }
 }
