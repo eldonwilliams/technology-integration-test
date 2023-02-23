@@ -1,17 +1,15 @@
-import { redisClient, RedisError } from "../redisClient";
-import { JWT_KEY, LoggedInErrResponse } from "../util/authMiddleware";
+import { redisClient } from "../redisClient";
+import { JWT_KEY } from "../util/authMiddleware";
 import passwordValidator from "password-validator";
 import jwt from "jsonwebtoken";
 
-interface SuccessfulSignupResponse {
+export interface SuccessfulSignupResponse {
     success: true,
 }
 
 export interface SignupAlreadyExistsErr {
     err: "Already Exists",
 }
-
-export type SignupResponse = SuccessfulSignupResponse | SignupAlreadyExistsErr | AccDetailInvalidErr | LoggedInErrResponse | RedisError;
 
 export interface SignupBody {
     username: string,

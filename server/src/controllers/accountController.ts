@@ -1,6 +1,6 @@
 import { LoggedInErrResponse, loggedOutMiddleware } from "../util/authMiddleware";
 import { Body, Controller, Middlewares, Post, Response, Route, Security, SuccessResponse, Tags } from "tsoa";
-import { AccDetailInvalidErr, accountPasswordSchema, accountUsernameSchema, getAccountByUsername, setAccountByName, SignupAlreadyExistsErr, SignupBody, SignupResponse } from "../services/accountService";
+import { AccDetailInvalidErr, accountPasswordSchema, accountUsernameSchema, getAccountByUsername, setAccountByName, SignupAlreadyExistsErr, SignupBody, SuccessfulSignupResponse } from "../services/accountService";
 import bcrypt from "bcrypt";
 import { RedisError } from "../redisClient";
 
@@ -15,7 +15,7 @@ export class AccountController extends Controller {
     @Response<RedisError>(500)
     @SuccessResponse(201, "Account Created")
     @Middlewares(loggedOutMiddleware)
-    public async createAccount(@Body() request: SignupBody): Promise<SignupResponse> {
+    public async createAccount(@Body() request: SignupBody): Promise<SuccessfulSignupResponse | any> {
         const { username, password } = request;
         const passwordValidation = accountPasswordSchema.validate(password, { details: true, }) as any[];
         const usernameValidation = accountUsernameSchema.validate(username, { details: true, }) as any[];

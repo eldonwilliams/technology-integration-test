@@ -11,6 +11,10 @@ declare global {
      */
     export type RouteSubscriber = (event: RouteSubscriberEvent) => void;
 
+    export interface GenericSuccessResponse {
+        success: true,
+    }
+
     /**
      * Extended express request object
      */
