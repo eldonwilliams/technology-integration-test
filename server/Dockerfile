@@ -1,4 +1,4 @@
-# Package Stuffs
+# Dependencies
 
 FROM node:16
 WORKDIR /usr/src/app
@@ -14,7 +14,8 @@ RUN npm install -g tsoa
 RUN npm install -g
 RUN npm install
 
-# Main
+# Deploy
+
 COPY . /usr/src/app/
 
 RUN tsoa spec-and-routes
