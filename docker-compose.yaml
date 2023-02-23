@@ -24,6 +24,14 @@ services:
       JWT_KEY: $JWT_KEY
       REDIS_URL: $REDIS_URL
       CORS_ORIGINS: $CORS_ORIGINS
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    networks:
+      - urlnet
   redoc:
     image: redocly/redoc
     environment:

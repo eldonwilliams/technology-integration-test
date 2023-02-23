@@ -13,4 +13,4 @@ RUN npm install
 # Deploy
 
 COPY . /usr/src/app/
-
+CMD npm run dev
