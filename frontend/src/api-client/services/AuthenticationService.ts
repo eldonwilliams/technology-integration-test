@@ -3,7 +3,6 @@
 /* eslint-disable */
 import type { GenericSuccessResponse } from '../models/GenericSuccessResponse';
 import type { LoginBody } from '../models/LoginBody';
-import type { RedisError } from '../models/RedisError';
 import type { SessionInfo } from '../models/SessionInfo';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -54,7 +53,7 @@ export class AuthenticationService {
      * @returns any Session info has been returned
      * @throws ApiError
      */
-    public getSessionInfo(): CancelablePromise<(SessionInfo | RedisError)> {
+    public getSessionInfo(): CancelablePromise<SessionInfo> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/authentication/session',
