@@ -5,10 +5,11 @@ import type { LoginReqBody } from '../models/LoginReqBody';
 import type { SessionInfoResponse } from '../models/SessionInfoResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
 export class AuthenticationService {
+
+    constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
      * Allows a client to login provided a username and password, required they are not currently logged in
@@ -16,10 +17,10 @@ export class AuthenticationService {
      * @returns void
      * @throws ApiError
      */
-    public static login(
+    public login(
         requestBody: LoginReqBody,
     ): CancelablePromise<void> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'POST',
             url: '/authentication/login',
             body: requestBody,
@@ -36,10 +37,10 @@ export class AuthenticationService {
      * @returns any Ok
      * @throws ApiError
      */
-    public static logout(): CancelablePromise<{
+    public logout(): CancelablePromise<{
         success: boolean;
     }> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/authentication/logout',
         });
@@ -50,8 +51,8 @@ export class AuthenticationService {
      * @returns SessionInfoResponse Ok
      * @throws ApiError
      */
-    public static getSessionInfo(): CancelablePromise<SessionInfoResponse> {
-        return __request(OpenAPI, {
+    public getSessionInfo(): CancelablePromise<SessionInfoResponse> {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/authentication/session',
         });

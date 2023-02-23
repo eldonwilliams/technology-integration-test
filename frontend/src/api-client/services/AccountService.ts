@@ -6,20 +6,21 @@ import type { SignupBody } from '../models/SignupBody';
 import type { SignupResponse } from '../models/SignupResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 
 export class AccountService {
+
+    constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
      * @param requestBody
      * @returns SignupResponse Account Created
      * @throws ApiError
      */
-    public static createAccount(
+    public createAccount(
         requestBody: SignupBody,
     ): CancelablePromise<SignupResponse> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'POST',
             url: '/account/signup',
             body: requestBody,
@@ -33,10 +34,10 @@ export class AccountService {
      * @returns void
      * @throws ApiError
      */
-    public static login(
+    public login(
         requestBody: LoginReqBody,
     ): CancelablePromise<void> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'POST',
             url: '/authentication/login',
             body: requestBody,
@@ -53,10 +54,10 @@ export class AccountService {
      * @returns any Ok
      * @throws ApiError
      */
-    public static logout(): CancelablePromise<{
+    public logout(): CancelablePromise<{
         success: boolean;
     }> {
-        return __request(OpenAPI, {
+        return this.httpRequest.request({
             method: 'GET',
             url: '/authentication/logout',
         });
