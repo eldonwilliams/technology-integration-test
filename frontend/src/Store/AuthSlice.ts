@@ -11,8 +11,6 @@ export interface AuthSliceState {
     whois: string | undefined;
 }
 
-
-
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
