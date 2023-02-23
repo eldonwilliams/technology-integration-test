@@ -7,7 +7,7 @@ import Error from './components/Error'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import './index.css'
-import { store } from './Store'
+import { store } from './store'
 
 const router = createBrowserRouter([
   {

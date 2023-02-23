@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link, useOutlet } from 'react-router-dom'
 import useAuthUpdate from '../hooks/useAuthUpdate';
 import useOnline from '../hooks/useOnline';
-import { RootState } from '../Store';
+import { RootState } from '../store';
 import './App.css';
 import Logout from './Logout';
 

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { updateAuthentication } from "../Store/AuthSlice";
+import { updateAuthentication } from "../store/AuthSlice";
 
 /**
  * Creates a function which can be used to update the auth state in redux
