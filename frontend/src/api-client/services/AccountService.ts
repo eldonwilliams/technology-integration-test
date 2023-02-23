@@ -1,9 +1,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { LoginReqBody } from '../models/LoginReqBody';
+import type { GenericSuccessResponse } from '../models/GenericSuccessResponse';
+import type { LoginBody } from '../models/LoginBody';
 import type { SignupBody } from '../models/SignupBody';
-import type { SignupResponse } from '../models/SignupResponse';
+import type { SuccessfulSignupResponse } from '../models/SuccessfulSignupResponse';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -14,12 +15,12 @@ export class AccountService {
 
     /**
      * @param requestBody
-     * @returns SignupResponse Account Created
+     * @returns any Account Created
      * @throws ApiError
      */
     public createAccount(
         requestBody: SignupBody,
-    ): CancelablePromise<SignupResponse> {
+    ): CancelablePromise<SuccessfulSignupResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/account/signup',
@@ -31,12 +32,12 @@ export class AccountService {
     /**
      * Allows a client to login provided a username and password, required they are not currently logged in
      * @param requestBody
-     * @returns void
+     * @returns any You have been logged in
      * @throws ApiError
      */
     public login(
-        requestBody: LoginReqBody,
-    ): CancelablePromise<void> {
+        requestBody: LoginBody,
+    ): CancelablePromise<GenericSuccessResponse> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/authentication/login',
@@ -51,15 +52,16 @@ export class AccountService {
 
     /**
      * Logs the client out using clear cookie, returning an error if no sessionToken exists.
-     * @returns any Ok
+     * @returns any You have been logged out
      * @throws ApiError
      */
-    public logout(): CancelablePromise<{
-        success: boolean;
-    }> {
+    public logout(): CancelablePromise<GenericSuccessResponse> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/authentication/logout',
+            errors: {
+                401: `You can't log out without being logged in!`,
+            },
         });
     }
 

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type LoginReqBody = {
+export type LoginBody = {
     username: string;
     password: string;
 };
