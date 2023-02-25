@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
-import { FarmIdleBackend } from "../../api-client";
 import { RootState } from "../../store";
+import { ApiClient } from "../../store/ApiSlice";
 
-function useApi(): FarmIdleBackend {
-    const selected = useSelector((state: RootState) => state.api.farmIdleClient);
+function useApi(): ApiClient {
+    const selected = useSelector((state: RootState) => state.api.apiClient);
     return selected
 }
 
