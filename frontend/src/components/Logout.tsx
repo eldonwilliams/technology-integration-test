@@ -1,14 +1,19 @@
-import useAuthUpdate from "../hooks/useAuthUpdate";
+import useApi from "../hooks/apiHooks/useApi";
+import useAuthUpdate from "../hooks/apiHooks/useAuthUpdate";
+
 
 function Logout() {
     const update = useAuthUpdate();
+    const api = useApi();
+
+    const logoutRequest = api.path('/authentication/logout').method("get").create();
 
     return (
         <button
             onClick={() => {
-                fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, { credentials: "include", })
+                logoutRequest({})
                     .then(update)
-                    .catch(update);
+                    .catch(update)
             }}
             style={{
                 marginBottom: "10px",

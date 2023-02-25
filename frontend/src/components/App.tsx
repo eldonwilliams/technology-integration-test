@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useOutlet } from 'react-router-dom'
-import useAuthUpdate from '../hooks/useAuthUpdate';
+import useAuthUpdate from '../hooks/apiHooks/useAuthUpdate';
 import useOnline from '../hooks/useOnline';
 import { RootState } from '../store';
 import './App.css';

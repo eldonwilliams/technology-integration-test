@@ -1,10 +1,14 @@
 import { ChangeEventHandler, useState } from "react";
 import { Link } from "react-router-dom";
-import useAuthUpdate from "../hooks/useAuthUpdate";
+import useApi from "../hooks/apiHooks/useApi";
+import useAuthUpdate from "../hooks/apiHooks/useAuthUpdate";
 
 function Login() {
     const [formState, setFormState] = useState<Record<string, string>>({});
     const updateAuth = useAuthUpdate();
+    const api = useApi();
+
+    const loginRequest = api.path('/authentication/login').method('post').create();
 
     const getFormUpdater = (key: string): ChangeEventHandler<HTMLInputElement> => {
         return (event) => setFormState((old) => ({ ...old, [key]: event.target.value, }));
@@ -14,19 +18,30 @@ function Login() {
         if (Object.keys(formState).length !== 2) return;
         setFormState((old) => ({ ...old, pending: "true", }));
 
-        fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
-            body: JSON.stringify(formState),
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-        })
-            .then(res => {
-                setFormState((old) => ({ ...old, successState: res.status === 200 ? "Successfully logged in!" : "Error", }))
-                updateAuth();
+        loginRequest({ username: formState.username, password: formState.password, })
+            .then((response) => {
+                if (response.status !== 200) return;
+                setFormState({ successState: "Successfully logged in!", });
             })
-            .catch(err => setFormState((old) => ({ ...old, successState: err.toString(), })));
+            .catch((e) => {
+                if (e instanceof loginRequest.Error) {
+                    const error = e.getActualType();
+                    let successState = "Something really weird happened..."
+                    switch (error.status) {
+                        case 401:
+                            successState = "Incorrect Password";
+                            break;
+                        case 403:
+                            successState = "You are already logged in";
+                            break;
+                        case 404:
+                            successState = "No account exists by that username";
+                            break;
+                    }
+                    setFormState({ successState, })
+                }
+            })
+            .finally(updateAuth);
     }
 
     if (formState?.successState)
