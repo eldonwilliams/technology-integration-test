@@ -1,4 +1,4 @@
-# Package Stuffs
+# Dependencies
 
 FROM node:16
 WORKDIR /usr/src/app
@@ -10,11 +10,15 @@ COPY package-lock.json* package-lock.json
 # Thanks to @Grasume#1295 on Discord btw for showing me this syntax
 RUN npm install -g typescript
 RUN npm install -g jest
+RUN npm install -g tsoa
 RUN npm install -g
 RUN npm install
 
-# Main
+# Deploy
+
 COPY . /usr/src/app/
+
+RUN tsoa spec-and-routes
 
 RUN tsc
 

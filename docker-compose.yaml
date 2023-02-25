@@ -23,6 +23,29 @@ services:
       GEN_TEST_REPORTS: $GEN_TEST_REPORTS
       JWT_KEY: $JWT_KEY
       REDIS_URL: $REDIS_URL
+      CORS_ORIGINS: $CORS_ORIGINS
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    networks:
+      - urlnet
+    environment:
+      VITE_API_URL: $API_URL
+  redoc:
+    image: redocly/redoc
+    environment:
+      SPEC_URL: $OPEN_API_SPEC
+      PORT: 8081
+      PAGE_TITLE: Farm IDLE – API Docs
+    networks:
+      - urlnet
+    ports:
+      - '8081:8081'
+    depends_on:
+      - backend
   redis:
     image: redis/redis-stack:latest
     ports:
