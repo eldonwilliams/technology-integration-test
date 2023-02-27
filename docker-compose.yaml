@@ -5,6 +5,7 @@ services:
     build:
       context: ./server/
       dockerfile: Dockerfile
+      target: ${BACKEND_TARGET-deploy}
     ports:
       - '8000:8000'
       - '7979:7979'
@@ -20,7 +21,6 @@ services:
     environment:
       REST_PORT: $REST_PORT
       SOCKET_PORT: $SOCKET_PORT
-      GEN_TEST_REPORTS: $GEN_TEST_REPORTS
       JWT_KEY: $JWT_KEY
       REDIS_URL: $REDIS_URL
       CORS_ORIGINS: $CORS_ORIGINS
