@@ -84,6 +84,7 @@ export const accountPasswordSchema = new passwordValidator()
 .is().max(100)
 .has().uppercase()
 .has().lowercase()
+.has().digits()
 .has().not().spaces();
 
 /**
