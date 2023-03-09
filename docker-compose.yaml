@@ -24,6 +24,7 @@ services:
       JWT_KEY: $JWT_KEY
       REDIS_URL: $REDIS_URL
       CORS_ORIGINS: $CORS_ORIGINS
+      BUILD_TARGET: ${BACKEND_TARGET-deploy}
   frontend:
     build:
       context: ./frontend/
