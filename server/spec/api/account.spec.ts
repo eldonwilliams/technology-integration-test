@@ -65,16 +65,20 @@ describe("account tests", () => {
         });
 
         test("must be logged out", async () => {
-            await signupRequest({ username: "test2", password: "HelloWorld32#", }, {
+            const request = signupRequest({ username: "test2", password: "HelloWorld32#", }, {
                 headers: {
                     "Cookie": `sessionToken=${await getTestSessionToken()};`,
                 }
-            }).catch((e) => {
+            });
+
+            request.catch((e) => {
                 if (!(e instanceof signupRequest.Error)) throw new Error;
                 const error = e.getActualType();
                 expect(error.status).toBe(403);
                 expect(error.data.err).toBe("LoggedIn")
             });
+
+            await expect(request).rejects.toBeDefined();
         });
     });
 });
