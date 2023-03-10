@@ -10,11 +10,11 @@ describe("oa-spec can be fetched and is valid", () => {
     beforeAll(async () => {
         await getOaSpec({}, {})
             .then((response) => {
-                if (response.status !== 200) throw new Error("Not 200 Status");
+                if (response.status !== 200) throw new Error;
                 oaSpec = JSON.stringify(response.data);
             })
             .catch(e => {
-                throw new Error("Shouldn't Catch")
+                throw new Error;
             });
     });
 

@@ -7,7 +7,7 @@ describe("status api tests", () => {
 
     beforeAll(async () => {
         let got = await getTestSessionToken();
-        if (got === undefined) throw new Error("SessionToken was undefined, error occurred whilst logging in");
+        if (got === undefined) throw new Error;
         sessionToken = got;
     });
 
@@ -21,7 +21,7 @@ describe("status api tests", () => {
             expect(response.data.okay).toBe(true);
             expect(response.data.authenticated).toBe(false);
         }).catch((e) => {
-            throw new Error(e.toString());
+            throw new Error;
         });
     });
 
@@ -35,7 +35,7 @@ describe("status api tests", () => {
             expect(response.data.okay).toBe(true);
             expect(response.data.authenticated).toBe(true);
         }).catch((e) => {
-            throw new Error(e.toString());
+            throw new Error;
         });
     });
 });
