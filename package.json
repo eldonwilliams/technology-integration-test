@@ -4,7 +4,8 @@
   "description": "Farm IDLE monorepo",
   "main": "startServer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node startServer.js --testing",
+    "start": "node startServer.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/eldonwilliams/farm-idle/issues"
   },
-  "homepage": "https://github.com/eldonwilliams/farm-idle#readme"
+  "homepage": "https://github.com/eldonwilliams/farm-idle#readme",
+  "dependencies": {
+    "jsonc-simple-parser": "^3.0.0"
+  }
 }
