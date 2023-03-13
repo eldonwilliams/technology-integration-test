@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Farm IDLE monorepo",
   "main": "startServer.js",
+  "type": "module",
   "scripts": {
     "test": "node startServer.js --testing",
     "start": "node startServer.js"
