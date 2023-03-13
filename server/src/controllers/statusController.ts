@@ -13,7 +13,7 @@ export class StatusController extends Controller {
     public async get(@Request() request: express.Request): Promise<GetStatusResponse> {
         return ({
             okay: true,
-            authenticated: !!request.authed,
+            authenticated: request.authed,
         });
     }
 }
