@@ -1,0 +1,24 @@
+{
+    /*
+        The config controls many parts of the server and web client.
+        The config is read from ./config.jsonc and that file is also included in the .gitignore
+        It should contain tokens and secrets so keeping that file safe is important!
+
+        This is an example config.jsonc you may fill out to your liking, but includes good defaults.
+
+        Each variable is explained and some are required and will cause errors if omitted.
+    */
+
+    // Backend Config
+    "REST_PORT": 8000, // The port rest/express.js will listen on
+    "SOCKET_PORT": 7979, // The port socket.io will listen on
+    "JWT_KEY": null, // **mostly required, if you want permanent data. The key that encrypts all decrypt-able data, if changed, user accounts will be lost.
+    "REDIS_URL": "redis://redis:6379", // The url redis will connect to for caching
+    "CORS_ORIGINS": "http://localhost:5173 http://localhost:8081", // The origins cors will allow, separate with space
+
+    // Frontend Config
+    "API_URL": "http://localhost:8000", // *required, what url will api calls be made to
+
+    // API Documentation Config
+    "OPEN_API_SPEC": "http://localhost:8000/oa-spec.json/" // *required, the full url that the open-api spec will be gotten from.
+}
