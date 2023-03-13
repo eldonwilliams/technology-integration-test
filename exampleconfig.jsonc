@@ -1,13 +1,11 @@
 {
-    /*
-        The config controls many parts of the server and web client.
-        The config is read from ./config.jsonc and that file is also included in the .gitignore
-        It should contain tokens and secrets so keeping that file safe is important!
+    // The config controls many parts of the server and web client.
+    // The config is read from ./config.jsonc and that file is also included in the .gitignore
+    // It should contain tokens and secrets so keeping that file safe is important!
 
-        This is an example config.jsonc you may fill out to your liking, but includes good defaults.
+    // This is an example config.jsonc you may fill out to your liking, but includes good defaults.
 
-        Each variable is explained and some are required and will cause errors if omitted.
-    */
+    // Each variable is explained and some are required and will cause errors if omitted.
 
     // Backend Config
     "REST_PORT": 8000, // The port rest/express.js will listen on
