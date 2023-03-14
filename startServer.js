@@ -20,12 +20,9 @@ Object.keys(config).forEach(key => {
 const dockerProcess = spawn("docker", ["compose", "up", "--build"], {
     env: environment,
     stdio: "inherit",
-
 });
 
 process.on('SIGINT', () => {
     if (dockerProcess.exitCode === null)
         return console.log("[StartServer.JS] Interrupt Ignored Until Docker Stops...");
-    
-
 });
