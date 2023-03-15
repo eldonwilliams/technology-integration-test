@@ -2,11 +2,11 @@
   "name": "farm-idle",
   "version": "1.0.0",
   "description": "Farm IDLE monorepo",
-  "main": "startServer.js",
-  "type": "module",
+  "main": "startDocker.js",
   "scripts": {
-    "test": "node startServer.js --testing",
-    "start": "node startServer.js"
+    "test": "node startDocker.js --test",
+    "help": "node startDocker.js --help",
+    "start": "node startDocker.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/eldonwilliams/farm-idle#readme",
   "dependencies": {
-    "jsonc-simple-parser": "^3.0.0"
+    "jsonc": "^2.0.0"
   }
 }
