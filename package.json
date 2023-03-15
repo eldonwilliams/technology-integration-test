@@ -1,0 +1,24 @@
+{
+  "name": "farm-idle",
+  "version": "1.0.0",
+  "description": "Farm IDLE monorepo",
+  "main": "startDocker.js",
+  "scripts": {
+    "test": "node startDocker.js --test",
+    "help": "node startDocker.js --help",
+    "start": "node startDocker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eldonwilliams/farm-idle.git"
+  },
+  "author": "Eldon W.",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/eldonwilliams/farm-idle/issues"
+  },
+  "homepage": "https://github.com/eldonwilliams/farm-idle#readme",
+  "dependencies": {
+    "jsonc": "^2.0.0"
+  }
+}

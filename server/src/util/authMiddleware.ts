@@ -1,11 +1,11 @@
 import { Handler } from "express";
-import { getEnvString } from "./getEnv";
 import { randomBytes } from "crypto";
 import { verify } from "jsonwebtoken";
 import * as express from "express";
+import getValueFromConfig from "./configReader";
 
 const randBytes = randomBytes(128).toString("hex");
-const JWT_KEY = getEnvString("JWT_KEY", randBytes) as string;
+const JWT_KEY = getValueFromConfig("JWT_KEY", randBytes) as string;
 if (JWT_KEY === randBytes) console.warn("JWT_KEY is unset! All and data encrypted with the randBytes will be unrecoverable once restarted.")
 
 export function expressAuthentication(request: express.Request, securityName: string, scopes: string[]): Promise<any> {

@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import { getEnvString } from "./util/getEnv";
+import getValueFromConfig from "./util/configReader";
 
 /**
  * A Error that occurs because of Redis, should have status of 500.
@@ -11,7 +11,7 @@ export interface RedisError {
 
 export const RedisError: RedisError = { err: "Redis Failure", }
 
-const REDIS_URL = getEnvString("REDIS_URL", "redis://redis:6379") as string;
+const REDIS_URL = getValueFromConfig("REDIS_URL", "redis://redis:6379");
 
 export const redisClient = createClient({ url: REDIS_URL, });
 redisClient.connect().catch((reason) => console.error(reason));

@@ -3,8 +3,8 @@ version: '3.0'
 services:
   backend:
     build:
-      context: ./server/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./server/Dockerfile
       target: ${BACKEND_TARGET-deploy}
     ports:
       - '8000:8000'
@@ -21,8 +21,6 @@ services:
     environment:
       REST_PORT: $REST_PORT
       SOCKET_PORT: $SOCKET_PORT
-      JWT_KEY: $JWT_KEY
-      REDIS_URL: $REDIS_URL
       CORS_ORIGINS: $CORS_ORIGINS
       BUILD_TARGET: ${BACKEND_TARGET-deploy}
   frontend:

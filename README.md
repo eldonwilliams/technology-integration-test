@@ -8,4 +8,13 @@
 ## What is this
 This game is part of an STLP project under the game design competition.
 
+## Setup
+
+Required Software:
+- Docker
+- Node
+
+1. copy `exampleconfig.jsonc` to `config.jsonc`
+2. run `node .`
+
 > *Licensed under Mozilla OSS v2.0*
