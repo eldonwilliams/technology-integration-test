@@ -3,8 +3,8 @@
 FROM node:16 as deps
 WORKDIR /usr/src/app
 
-COPY package.json package.json
-COPY package-lock.json* package-lock.json
+COPY ./server/package.json package.json
+COPY ./server/package-lock.json* package-lock.json
 
 # I have such a love hate relationship with Docker
 # Thanks to @Grasume#1295 on Discord btw for showing me this syntax
@@ -18,7 +18,8 @@ RUN npm install
 # Build
 
 FROM deps as build
-COPY . /usr/src/app/
+COPY ./server/ /usr/src/app/
+COPY ./config.jsonc /usr/src/app/
 
 RUN tsoa spec-and-routes
 
