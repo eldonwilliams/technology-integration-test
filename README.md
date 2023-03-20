@@ -5,8 +5,7 @@
   />
 </a>
 
-## What is this
-This game is part of an STLP project under the game design competition.
+## This Project is Canceled.
 
 ## Setup
 
